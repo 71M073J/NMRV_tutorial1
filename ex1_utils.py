@@ -45,7 +45,8 @@ def show_flow(U, V, ax, type='field', set_aspect=False):
         im_hsv = np.concatenate((np.expand_dims(angle / (2 * math.pi), -1),
                                 np.expand_dims(np.ones(angle.shape, dtype=np.float32), -1),
                                 np.expand_dims(np.ones(angle.shape, dtype=np.float32), -1)), axis=-1)
-        ax.imshow(hsv_to_rgb(im_hsv))
+        mag = np.sqrt(U**2 + V**2)
+        ax.imshow(np.concatenate((hsv_to_rgb(im_hsv), mag.reshape(U.shape[0], U.shape[1], 1)), -1) )
     elif type == 'angle_magnitude':
         magnitude = np.sqrt(U**2 + V**2)
         angle = np.arctan2(V, U) + math.pi
